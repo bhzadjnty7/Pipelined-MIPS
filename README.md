@@ -275,3 +275,33 @@ This project demonstrates:
 It is a complete educational CPU implementation.
 
 ---
+
+## Repo Structure
+```text
+repo/
+│
+├── src/
+│   ├── fetch.v
+│   ├── decode.v
+│   ├── execute.v
+│   ├── datapath.v
+│   └── ...
+│
+├── simulation/
+│   ├── testbench.v
+│   └── modelsim_files
+│
+├── images/
+│   ├── datapath.png
+│   ├── pipeline_structure.png
+│   ├── waveform1.png
+│   ├── waveform2.png
+│   ├── data_memory_before.png
+│   ├── data_memory_after.png
+│   └── instruction_memory.png
+│
+├── report/
+│   └── report.pdf
+│
+└── README.md
+```
