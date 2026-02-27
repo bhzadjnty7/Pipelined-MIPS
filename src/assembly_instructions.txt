@@ -1,0 +1,45 @@
+addi t4,t4,9
+aadi t5,t5,9
+addi t30,t30,4 
+addi t29,t29,36
+addi t28,t28,20
+beq t4,t0,end
+nop
+nop
+nop
+beq t5,t0,end
+noop
+noop
+noop
+lw t1,offset(t31)
+lw t2,offset(t30)
+noop
+noop
+noop
+noop
+noop
+sub t3,t1,t2
+noop
+noop
+noop
+noop
+noop
+bgtz t3,t0
+noop
+noop
+noop
+sw t2,offset(t31)
+sw t1,offset(t30)
+addi t30,t30,4
+addi t5,t5,-1 
+noop
+jr t29
+noop
+noop
+addi t30,t31,4
+noop
+addi t31,t31,4
+addi t4,t4,-1
+addi t5,t4,-1
+jr t28
+noop

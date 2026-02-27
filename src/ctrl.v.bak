@@ -1,0 +1,144 @@
+
+`include "opcode_and_inst.v"
+module controller (
+    clk,
+    rst,
+    opcode,
+    func,
+    RegDst,// selector mux3 reg-file
+    Jmp,
+    DataC,
+    Regwrite,
+    AluSrc,
+    Branch,
+    MemRead,
+    MemWrite,
+    MemtoReg,
+    AluOperation
+);
+  input clk, rst;
+  input [5:0] opcode, func;
+  output reg [1:0] RegDst, Jmp;
+  output reg DataC, Regwrite, AluSrc, Branch, MemRead, MemWrite, MemtoReg;
+  output reg [5:0] AluOperation;
+
+  always @(opcode, func) begin
+    {RegDst, Jmp, DataC, Regwrite, AluSrc, Branch, MemRead, MemWrite, MemtoReg, AluOperation} = 0;
+    case (opcode)
+
+      `RT: begin
+        RegDst = 2'b01;
+        Regwrite = 1; // activating reg-file to write data on register from write-back stage
+        AluOperation = func[5:0];
+
+        if (func == `jr) Jmp = 2'b11;
+        if (func == `jalr) begin
+          Jmp = 2'b11;
+          RegDst = 2'b10;
+          DataC = 1;
+          Regwrite = 1;
+        end
+      end
+
+      `addi: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_ADD;
+      end
+
+      `addiu: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_ADDU;
+      end
+
+       // set less than immidiate
+      `slti: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_SLT;
+      end
+
+       // set less than immediate unsigned
+      `sltiu: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_SLTU;
+      end
+
+       // xor immediate
+      `xori: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_XOR;
+      end
+
+	//or immediate
+      `ori: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_OR;
+      end
+
+	// AND immediate
+      `andi: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_AND;
+      end
+	
+	// load upper immediate
+      `lui: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_LUI;
+      end
+
+	// load word
+      `lw: begin
+        Regwrite = 1;
+        AluSrc = 1;
+        AluOperation = `ALU_ADD;
+        MemRead = 1;
+        MemtoReg = 1;
+      end
+
+	// store word
+      `sw: begin
+        AluSrc = 1;
+        AluOperation = `ALU_ADD;
+        MemWrite = 1;
+      end
+
+       //branch equal to zero
+      `beqz: begin
+        AluOperation = `ALU_BEQZ;
+        Branch = 1;
+      end
+
+	// branch if equal 
+      `beq: begin
+        AluOperation = `ALU_SUB;
+        Branch = 1;
+      end
+
+	// branch if not equal 
+      `bne: begin
+        AluOperation = `ALU_BEQ;
+        Branch = 1;
+      end
+
+	// jump
+      `j: begin
+        Jmp = 2'b01;
+      end
+	//jump and link
+      `jal: begin
+        RegDst = 2'b10;
+        DataC = 1;
+        Regwrite = 1;
+        Jmp = 2'b01;
+      end
+    endcase
+  end
+endmodule
