@@ -262,7 +262,7 @@ MIT License
 
 ---
 
-## ⭐ Why this project matters
+## Why this project matters
 
 This project demonstrates:
 
@@ -305,3 +305,9 @@ repo/
 │
 └── README.md
 ```
+
+## ⭐️ Support
+
+If you find this repository useful, consider giving it a ⭐️
+
+---
