@@ -311,3 +311,5 @@ repo/
 If you find this repository useful, consider giving it a ⭐️
 
 ---
+
+<div align="center"> <sub>Built with ❤️ using verilog and modelsim</sub> </div> 
